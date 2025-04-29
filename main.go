@@ -137,15 +137,15 @@ func (l *LoremIpsum) Generate(numWords int) string {
 
 	// Start with first two words
 	generatedWords := []string{words[0], words[1]}
-	numWords -= 2
+	remaining := numWords - 2
 
 	// Add remaining words
-	for i := 0; i < numWords; i++ {
+	for i := 0; i < remaining; i++ {
 		position := rand.Intn(len(words))
 		word := words[position]
 
 		// Avoid repeating the same word consecutively
-		if i > 0 && generatedWords[i-1] == word {
+		if len(generatedWords) > 0 && generatedWords[len(generatedWords)-1] == word {
 			i--
 			continue
 		}
@@ -155,24 +155,24 @@ func (l *LoremIpsum) Generate(numWords int) string {
 
 	sentences := []string{}
 	current := 0
+	wordsLeft := len(generatedWords)
 
 	// Create sentences from the generated words
-	for numWords > 0 {
+	for wordsLeft > 0 {
 		sentenceLength := l.getRandomSentenceLength()
 
-		if numWords-sentenceLength < 4 {
-			sentenceLength = numWords
+		if wordsLeft < sentenceLength {
+			sentenceLength = wordsLeft
 		}
 
-		numWords -= sentenceLength
-
-		if current+sentenceLength > len(generatedWords) {
+		if sentenceLength < 1 {
 			break
 		}
 
 		sentence := generatedWords[current : current+sentenceLength]
 		sentence = l.punctuate(sentence)
 		current += sentenceLength
+		wordsLeft -= sentenceLength
 		sentences = append(sentences, strings.Join(sentence, " "))
 	}
 
@@ -183,12 +183,19 @@ func (l *LoremIpsum) Generate(numWords int) string {
 func (l *LoremIpsum) punctuate(sentence []string) []string {
 	wordLength := len(sentence)
 
+	// Handle empty sentences or single word sentences
+	if wordLength == 0 {
+		return sentence
+	}
+
 	// End the sentence with a period
 	sentence[wordLength-1] = sentence[wordLength-1] + "."
 
 	if wordLength < 4 {
 		// Capitalize the first letter of the first word
-		sentence[0] = strings.ToUpper(sentence[0][:1]) + sentence[0][1:]
+		if len(sentence[0]) > 0 {
+			sentence[0] = strings.ToUpper(sentence[0][:1]) + sentence[0][1:]
+		}
 		return sentence
 	}
 
@@ -204,7 +211,9 @@ func (l *LoremIpsum) punctuate(sentence []string) []string {
 	}
 
 	// Capitalize the first letter of the first word
-	sentence[0] = strings.ToUpper(sentence[0][:1]) + sentence[0][1:]
+	if len(sentence[0]) > 0 {
+		sentence[0] = strings.ToUpper(sentence[0][:1]) + sentence[0][1:]
+	}
 
 	return sentence
 }
@@ -221,7 +230,11 @@ func (l *LoremIpsum) getRandomCommaCount(wordLength int) int {
 
 // getRandomSentenceLength produces a random sentence length
 func (l *LoremIpsum) getRandomSentenceLength() int {
-	return int(math.Round(l.gaussMS(WordsPerSentenceAvg, WordsPerSentenceStd)))
+	length := int(math.Round(l.gaussMS(WordsPerSentenceAvg, WordsPerSentenceStd)))
+	if length < 1 {
+		return 1 // Ensure we always have at least one word per sentence
+	}
+	return length
 }
 
 // gauss produces a random number
