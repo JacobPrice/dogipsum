@@ -45,9 +45,9 @@ fi
 
 # Construct the GitHub release URL
 if [ "$VERSION" = "latest" ]; then
-  RELEASE_URL="https://github.com/yourusername/dogipsum/releases/latest/download/dogipsum_${OS}_${ARCH}${EXT}"
+  RELEASE_URL="https://github.com/jacobprice/dogipsum/releases/latest/download/dogipsum_${OS}_${ARCH}${EXT}"
 else
-  RELEASE_URL="https://github.com/yourusername/dogipsum/releases/download/${VERSION}/dogipsum_${OS}_${ARCH}${EXT}"
+  RELEASE_URL="https://github.com/jacobprice/dogipsum/releases/download/${VERSION}/dogipsum_${OS}_${ARCH}${EXT}"
 fi
 
 # Create temp directory
