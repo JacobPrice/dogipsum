@@ -9,18 +9,18 @@ A Go CLI tool that generates "Lorem ipsum" style text with dog-themed words. Thi
 You can install dogipsum with the following one-liner:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourusername/dogipsum/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/jacobprice/dogipsum/main/install.sh | bash
 ```
 
 Or with wget:
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/yourusername/dogipsum/main/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/jacobprice/dogipsum/main/install.sh | bash
 ```
 
 ### Manual Installation
 
-1. Download the appropriate binary for your platform from the [Releases page](https://github.com/yourusername/dogipsum/releases)
+1. Download the appropriate binary for your platform from the [Releases page](https://github.com/jacobprice/dogipsum/releases)
 2. Extract the archive
 3. Move the binary to a location in your PATH:
 
@@ -35,7 +35,7 @@ sudo mv dogipsum /usr/local/bin/
 If you have Go installed:
 
 ```bash
-go install github.com/yourusername/dogipsum@latest
+go install github.com/jacobprice/dogipsum@latest
 ```
 
 ## Usage
@@ -76,9 +76,9 @@ This project uses GitHub Actions to automate the release process:
 
 ## License
 
-This software is provided under the BSD license. See the source code for full license details.
+This software is provided under the MIT license. See the source code for full license details.
 
 ## Credits
 
 - Original JavaScript implementation: Mathew Tinsley (tinsley@tinsology.net) and Rick Viscomi (rviscomi@gmail.com)
-- Go implementation: [Your Name]
+- Go implementation: [Jacob Price](https://github.com/jacobprice)
